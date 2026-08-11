@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# https://github.com/rabbitmq/cluster-operator/releases/tag/v2.22.2
+resources:
+  - cluster-operator.yml

@@ -1,0 +1,38 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq
+spec:
+  replicas: 3
+  image: rabbitmq:4.3.2-management
+  # tls:
+  #   secretName: rabbitmq-tls-secret 
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: rabbitmq
+        topologyKey: kubernetes.io/hostname
+  persistence:
+    storageClassName: standard-rwo
+    storage: 20Gi
+  resources:
+    requests:
+      cpu: "1"
+      memory: 2Gi
+    limits:
+      cpu: "2"
+      memory: 4Gi
+  rabbitmq:
+    additionalConfig: |
+      default_queue_type = quorum
+      vm_memory_high_watermark.relative = 0.85
+      disk_free_limit.absolute = 1GB
+    additionalPlugins:
+      - rabbitmq_shovel
+      - rabbitmq_stomp
+      - rabbitmq_mqtt
+      - rabbitmq_amqp1_0
+      - rabbitmq_auth_backend_ldap
+  terminationGracePeriodSeconds: 120
