@@ -4,7 +4,7 @@ metadata:
   name: rabbitmq
 spec:
   replicas: 3
-  image: rabbitmq:4.3.2-management
+  image: rabbitmq:4.3.4-management
   # tls:
   #   secretName: rabbitmq-tls-secret 
   affinity:
